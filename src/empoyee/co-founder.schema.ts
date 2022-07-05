@@ -40,6 +40,13 @@ export class CoFounder {
 
   @Prop()
   roleInCompany: string
+
+  /**
+   * Why is this person suited to be a co-founder in the startup?
+   * Personal and professional Background context w.r.t this question.
+   */
+  @Prop()
+  founderJourney: string
 }
 
 export type CoFounderDocument = CoFounder & Document

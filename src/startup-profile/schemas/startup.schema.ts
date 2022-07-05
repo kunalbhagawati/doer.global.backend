@@ -1,9 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { StartupStage } from '../../enums'
+import { DevelopmentStage } from '../../enums'
 import { FundingDetails } from './funding-details.schema'
 import { BusinessModelAndRevenueDetails } from './business-model-and-revenue-details.schema'
 import { CoFounder } from '../../empoyee/co-founder.schema'
-import { Document } from 'mongoose'
+import mongoose, { Document } from 'mongoose'
+import { CompanyDetails } from './company-details.schema'
 
 /**
  * The company/entity that is going into the incubator.
@@ -11,22 +12,23 @@ import { Document } from 'mongoose'
 @Schema()
 export class Startup {
   @Prop()
-  coFounders: CoFounder[]
-
-  @Prop()
   name: string
 
   @Prop()
   website: string
 
+  // TODO redundant field. Details can be found out from funding, business model, etc.
   @Prop()
   startupDescription: string
 
-  @Prop()
-  founderJourney: string
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: CoFounder }] })
+  coFounders: CoFounder[]
 
   @Prop()
-  startupStage: keyof typeof StartupStage
+  team: StartupTeam
+
+  @Prop()
+  developmentStage: keyof typeof DevelopmentStage
 
   @Prop()
   fundingDetails: FundingDetails
@@ -37,9 +39,15 @@ export class Startup {
   @Prop()
   productDemo: string // url here
 
+  /**
+   * Any links, references that share an insight into the startup and/or co-founders.
+   */
   @Prop([String])
   supportingLinks: string[]
 
+  /**
+   * Links to showcase any awards, media recognition, etc.
+   */
   @Prop()
   startupRecognitionAward: string // url
 
@@ -54,6 +62,9 @@ export class Startup {
 
   @Prop([String])
   focusAreas: string[]
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: CompanyDetails })
+  companyDetails: CompanyDetails
 }
 
 export type StartupDocument = Startup & Document

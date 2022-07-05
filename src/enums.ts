@@ -22,7 +22,7 @@ export enum MaritalStatus {
   CHOOSE_NOT_TO_SPECIFY,
 }
 
-export enum StartupStage {
+export enum DevelopmentStage {
   CONCEPT_DESIGN,
   PROTOTYPE,
   BUILDING_MVP,

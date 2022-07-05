@@ -4,6 +4,7 @@ import { Config } from './config/types'
 
 const validate = (config: Record<string, unknown>): Config => {
   const parsedConfig = EnvConfigSchema.parse(config)
+
   return {
     mongo: {
       host: parsedConfig.MONGO_HOST,
